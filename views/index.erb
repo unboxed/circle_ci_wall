@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Circle CI Wall</title>
+  <style>
+    .running { background: rgb(125,125,0); }
+    .success, .fixed { background: green; }
+    .failed { background: red; }
+  </style>
+</head>
+<body>
+<h1>Circle CI WALL</h1>
+<% if @error %>
+  <%= @error %>
+<% else %>
+  <% @branches.each do |branch_name,branch_info| %>
+    <div class="<%= branch_info.first['status'] %>" >
+      <h2><%= branch_name %></h2>
+      <p><%= branch_info.first['subject'] %></p>
+    </div>
+  <% end %>
+<% end %>
+</body>
+</html>
