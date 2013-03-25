@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Circle CI Wall</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
   <style>
+    .queued { background: rgb(125,125,125);  }
     .running { background: rgb(125,125,0); }
     .success, .fixed { background: green; }
     .failed { background: red; }
@@ -14,11 +16,26 @@
   <%= @error %>
 <% else %>
   <% @branches.each do |branch_name,branch_info| %>
-    <div class="<%= branch_info.first['status'] %>" >
+    <% first = branch_info.first %>
+    <div class="<%= first['status'] %>">
       <h2><%= branch_name %></h2>
-      <p><%= branch_info.first['subject'] %></p>
+      <%= first['committer_name'] %><br/>
+      <a href="<%= first['build_url'] %>" target="_blank"><%= first['subject'] %></a>
     </div>
   <% end %>
 <% end %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
+
+    ws = new WebSocket("ws://localhost:9000/ws");
+    ws.onmessage = function(evt) { $("#msg").append("<p>"+evt.data+"</p>"); };
+    ws.onclose = function() { debug("socket closed"); };
+    ws.onopen = function() {
+      debug("connected...");
+      ws.send("hello server");
+    };
+  });
+</script>
 </body>
 </html>
