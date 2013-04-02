@@ -22,7 +22,7 @@ class HelloWorld < Goliath::API
 
   use(Rack::Static,                     # render static files from ./public
       :root => Goliath::Application.app_path("public"),
-      :urls => ["/favicon.ico", '/stylesheets', '/javascripts', '/images'])
+      :urls => ["/favicon.ico", '/style.css', '/javascripts', '/images'])
 
   # plugin Goliath::Plugin::Latency       # ask eventmachine reactor to track its latency
 
