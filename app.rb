@@ -9,6 +9,19 @@ require 'goliath'
 require 'goliath/rack/templates'
 require 'goliath/plugins/latency'
 require 'fiber_pool'
+require 'airbrake'
+require './middleware/airbrake'
+# require 'logger'
+
+Airbrake.configure do |config|
+  config.api_key = ENV['AIRBRAKE_API_KEY']
+  config.host    = ENV['AIRBRAKE_HOST']
+  config.async do |notice|
+    Thread.new { Airbrake.sender.send_to_airbrake(notice) }
+  end
+  #config.development_environments = []
+  #config.logger = Logger.new(STDOUT)
+end
 
 fiber_pool = FiberPool.new(4)
 
@@ -18,6 +31,7 @@ end
 
 class HelloWorld < Goliath::API
   CIRCLE_BASE_URL = "https://circleci.com/api/v1/"
+  use Goliath::Rack::Airbrake
   include Goliath::Rack::Templates      # render templated files from ./views
 
   use(Rack::Static,                     # render static files from ./public

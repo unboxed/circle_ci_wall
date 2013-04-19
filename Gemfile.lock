@@ -1,9 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (3.2.13)
+      i18n (= 0.6.1)
+      multi_json (~> 1.0)
     addressable (2.3.3)
+    airbrake (3.1.11)
+      activesupport
+      builder
+      json
     async-rack (0.5.1)
       rack (~> 1.1)
+    builder (3.2.0)
     cookiejar (0.3.0)
     em-http-request (1.0.3)
       addressable (>= 2.2.3)
@@ -32,6 +40,7 @@ GEM
       rack-contrib
       rack-respond_to
     http_parser.rb (0.5.3)
+    i18n (0.6.1)
     json (1.7.7)
     log4r (1.1.10)
     multi_json (1.7.2)
@@ -47,8 +56,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   em-http-request
   fiber_pool
   goliath
+  i18n
   json
   tilt
