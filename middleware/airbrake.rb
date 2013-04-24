@@ -11,14 +11,6 @@ module Goliath
           ::Airbrake.notify(env[RACK_EXCEPTION], :env => ENV)
         end
         response
-      rescue Exception => e
-        puts "here2"
-        #begin
-        #  ::Airbrake.notify_or_ignore(e, :env => env, :paramaters => args)
-        #rescue Exception => airbrake_e
-        #  puts airbrake_e.message
-        #  puts airbrake_e.backtrace.join("\n")
-        #end
       end
 
     end

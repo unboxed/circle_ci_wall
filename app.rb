@@ -50,12 +50,9 @@ class HelloWorld < Goliath::API
                  query: {'circle-token' => '9bcff994b2e3a6c873aa28eff9f325315ee143de'})
 
     if resp.response_header.status.to_i != 0
-      begin
-        @branches = JSON.parse(resp.response).group_by{|i| i['branch']}
-      rescue Exception => e
-        @error = e.message
-      end
+      @branches = JSON.parse(resp.response).group_by{|i| i['branch']}
     else
+      ::Airbrake.notify(Exception.new(resp.error), parameters: {resp: resp})
       @error = resp.error
     end
 

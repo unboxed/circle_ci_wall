@@ -9,11 +9,7 @@
 <% if @error %>
   <%= @error %>
 <% else %>
-  <% {master: @branches['master'], develop: @branches['develop'] }.each do |branch_name,branch_info| %>
-    <% next unless branch_info %>
-  <% end %>
-
-  <% @branches.tap{|b|b.delete('develop'); b.delete('master')}.each do |branch_name,branch_info| %>
+  <% @branches.each do |branch_name,branch_info| %>
     <% next unless branch_info %>
     <%= erb :_branch, {}, :branch_info => branch_info, :branch_name => branch_name %>
   <% end %>
