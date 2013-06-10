@@ -413,6 +413,11 @@ body {
     background: #666;
 }
 
+.not_running {
+    background: #666;
+    opacity: 0.5;
+}
+
 .running {
     background: #b5712e;
 }
