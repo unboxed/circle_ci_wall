@@ -11,7 +11,7 @@ GEM
       json
     async-rack (0.5.1)
       rack (~> 1.1)
-    builder (3.2.0)
+    builder (3.2.2)
     cookiejar (0.3.0)
     em-http-request (1.0.3)
       addressable (>= 2.2.3)
@@ -19,7 +19,7 @@ GEM
       em-socksify
       eventmachine (>= 1.0.0.beta.4)
       http_parser.rb (>= 0.5.3)
-    em-socksify (0.2.1)
+    em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     em-synchrony (1.0.3)
       eventmachine (>= 1.0.0.beta.1)
@@ -41,16 +41,16 @@ GEM
       rack-respond_to
     http_parser.rb (0.5.3)
     i18n (0.6.4)
-    json (1.7.7)
+    json (1.8.0)
     log4r (1.1.10)
-    multi_json (1.7.2)
+    multi_json (1.7.7)
     rack (1.5.2)
     rack-accept-media-types (0.9)
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-respond_to (0.9.8)
       rack-accept-media-types (>= 0.6)
-    tilt (1.4.0)
+    tilt (1.4.1)
 
 PLATFORMS
   ruby
