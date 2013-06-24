@@ -10,6 +10,10 @@
     <div class="commit-details">
       <h2><%= branch_name[0,50] %></h2>
       <a href="<%= branch['build_url'] %>" target="_blank"><%= branch['subject'].to_s[0,50] %></a>
+      <% if branch['status'] == 'running' %>
+        <% total_time = (Time.now - Time.parse(branch['start_time'])).to_i %>
+        <progress id='progress-bar-<%= branch['build_num'] %>' class="progress-bar" max='<%= @max_time.to_i %>' value='<%= total_time %>'></progress>
+      <% end %>
     </div>
   </div>
 <% end %>

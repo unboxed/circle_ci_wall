@@ -427,6 +427,11 @@ body {
     background: #77ab13;
 }
 
+.done {
+    background: #77ab13;
+    opacity: 0.4;
+}
+
 .failed {
     background: #af432e;
 }
@@ -493,4 +498,8 @@ a {
 .canceled,
 .canceled a {
     color: #333;
+}
+
+.progress-bar {
+    width: 95%;
 }

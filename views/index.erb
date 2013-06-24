@@ -3,6 +3,7 @@
 <head>
   <title>Circle CI Wall</title>
   <link href="style.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -14,5 +15,23 @@
     <%= erb :_branch, {}, :branch_info => branch_info, :branch_name => branch_name %>
   <% end %>
 <% end %>
+<script type="text/javascript">
+  var increase_bar = function() {
+    $(".progress-bar").each(function() {
+      var value = parseInt($(this).attr("value"), 10) + 1;
+      var max = parseInt($(this).attr("max"), 10);
+      if(value <= max) {
+        $(this).attr("value", value);
+      } else {
+        $(this).parents(".running").addClass("done").removeClass("running")
+        $(this).remove();
+      }
+    });
+  }
+  setInterval(function() {
+    // refresh list
+    increase_bar();
+  }, 1000)
+</script>
 </body>
 </html>

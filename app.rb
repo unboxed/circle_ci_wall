@@ -47,15 +47,24 @@ class HelloWorld < Goliath::API
   def response(env)
     resp = EM::HttpRequest.new(CIRCLE_BASE_URL + "project/contikiholidays/contiki").
              get(head: {"Accept" => "application/json"},
-                 query: {'circle-token' => '9bcff994b2e3a6c873aa28eff9f325315ee143de'})
-
+                 query: {'circle-token' => ENV['CIRCLE_TOKEN']})
     if resp.response_header.status.to_i != 0
-      @branches = JSON.parse(resp.response).group_by{|i| i['branch']}
+      all_builds = JSON.parse(resp.response)
+      total_time = 0
+      count = 0
+      all_builds.each do |build|
+        if build['lifecycle'] == "finished" && ['success','fixed'].include?(build['status'])
+          total_time += Time.parse(build['stop_time']) - Time.parse(build['start_time'])
+          count += 1
+        end
+      end
+      total_time += (75 * count)
+      @max_time = (total_time / count).to_i
+      @branches = all_builds.group_by{|i| i['branch']}
     else
       ::Airbrake.notify(Exception.new(resp.error), parameters: {resp: resp})
       @error = resp.error
     end
-
     [200, {}, erb(:index)]
   end
 end
