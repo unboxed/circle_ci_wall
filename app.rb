@@ -58,7 +58,7 @@ class HelloWorld < Goliath::API
           count += 1
         end
       end
-      total_time += (75 * count)
+      total_time += (15 * count)
       @max_time = (total_time / count).to_i
       @branches = all_builds.group_by{|i| i['branch']}
     else
