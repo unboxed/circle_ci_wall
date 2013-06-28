@@ -16,15 +16,15 @@
   <% end %>
 <% end %>
 <script type="text/javascript">
+
   var increase_bar = function() {
-    $(".progress-bar").each(function() {
-      var value = parseInt($(this).attr("value"), 10) + 1;
-      var max = parseInt($(this).attr("max"), 10);
-      if(value <= max) {
-        $(this).attr("value", value);
+    $("div.running").each(function() {
+      var value = parseInt($(this).attr("data-value"), 10) + 1;
+      var percent = 100 - (parseInt((value * 100) / <%= @max_time.to_i %>) + 1);
+      if(value <= <%= @max_time.to_i %>) {
+        $(".branch-previous",$(this)).css("width","" + percent + "%");
       } else {
-        $(this).parents(".running").addClass("done").removeClass("running")
-        $(this).remove();
+        $(this).addClass("done").removeClass("running");
       }
     });
   }
