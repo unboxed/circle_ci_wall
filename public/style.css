@@ -409,6 +409,11 @@ body {
     padding: 1em;
 }
 
+.branch-result {
+    background: #666;
+    opacity: 0.8;
+}
+
 .queued {
     background: #666;
 }
