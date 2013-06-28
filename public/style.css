@@ -410,8 +410,7 @@ body {
 }
 
 .branch-result {
-    background: #666;
-    opacity: 0.8;
+    background: #111;
 }
 
 .queued {
