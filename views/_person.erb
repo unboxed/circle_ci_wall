@@ -1,0 +1,12 @@
+<div class="branch-result">
+  <div class="branch-info">
+    <div class="blame">
+      <img src="http://www.gravatar.com/avatar/<%= Digest::MD5.hexdigest(person_email.to_s.downcase).to_s %>>?s=128" />
+    </div>
+    <div class="commit-details">
+      <% person_info.each do |key,value| %>
+        <div class="<%= key %>"><%= key %>: <%= value %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

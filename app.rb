@@ -45,11 +45,32 @@ class HelloWorld < Goliath::API
   #end
 
   def response(env)
-    resp = EM::HttpRequest.new(CIRCLE_BASE_URL + "project/contikiholidays/contiki").
-             get(head: {"Accept" => "application/json"},
-                 query: {'circle-token' => ENV['CIRCLE_TOKEN']})
-    if resp.response_header.status.to_i != 0
-      all_builds = JSON.parse(resp.response)
+    case env['PATH_INFO']
+      when '/people'
+        people
+      else
+        index
+    end
+  end
+
+  private
+
+  def people
+    all_builds = get_all_builds
+    if all_builds
+      @people = Hash.new{Hash.new}
+      all_builds.each do |build|
+        person = @people[build['committer_email']]
+        person[build['status']] = person[build['status']].to_i + 1
+        @people[build['committer_email']] = person
+      end
+    end
+    [200, {}, erb(:people)]
+  end
+
+  def index
+    all_builds = get_all_builds
+    if all_builds
       total_time = 0
       count = 0
       all_builds.each do |build|
@@ -62,9 +83,29 @@ class HelloWorld < Goliath::API
       @max_time = (total_time / count).to_i
       @branches = all_builds.group_by{|i| i['branch']}
     else
-      ::Airbrake.notify(Exception.new(resp.error), parameters: {resp: resp})
-      @error = resp.error
+      @error ||= "no builds"
     end
     [200, {}, erb(:index)]
   end
+
+  def get_all_builds
+    resp = EM::HttpRequest.new(CIRCLE_BASE_URL + "project/contikiholidays/contiki").
+      get(head: {"Accept" => "application/json"},
+          query: {'circle-token' => ENV['CIRCLE_TOKEN']})
+    if resp.response_header.status.to_i != 0
+      JSON.parse(resp.response)
+    else
+      report_error(resp.error,{resp: resp})
+      nil
+    end
+  rescue Exception => e
+    ::Airbrake.notify(e)
+    nil
+  end
+
+  def report_error(error, parameters = {})
+    ::Airbrake.notify(Exception.new(error), parameters: parameters)
+    @error = resp.error
+  end
+
 end
