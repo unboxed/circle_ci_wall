@@ -1,4 +1,9 @@
-<div class="branch-result">
+<% if person_info['broke'] > person_info['fixed'] %>
+  <% branch_class = 'failed' %>
+<% else %>
+  <% branch_class = 'success' %>
+<% end %>
+<div class="branch-result  <%= branch_class %>">
   <div class="branch-info">
     <div class="blame">
       <img src="http://www.gravatar.com/avatar/<%= Digest::MD5.hexdigest(person_email.to_s.downcase).to_s %>>?s=128" />

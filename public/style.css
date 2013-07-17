@@ -441,7 +441,10 @@ body {
     background: #b5712e;
 }
 
-.success,
+.success{
+    background: #77ab56;
+}
+
 .fixed {
     background: #77ab13;
 }
@@ -453,6 +456,9 @@ body {
 
 .failed {
     background: #af432e;
+}
+.broke {
+    background: #af435e;
 }
 
 .canceled {

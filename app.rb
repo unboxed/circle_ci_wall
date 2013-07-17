@@ -58,11 +58,29 @@ class HelloWorld < Goliath::API
   def people
     all_builds = get_all_builds
     if all_builds
-      @people = Hash.new{Hash.new}
-      all_builds.each do |build|
-        person = @people[build['committer_email']]
-        person[build['status']] = person[build['status']].to_i + 1
-        @people[build['committer_email']] = person
+      @people = Hash.new{{'fixed' => 0, 'broke' => 0, 'success' => 0, 'failed' => 0}}
+      all_builds.group_by{|i| i['branch']}.each do |branch,builds|
+        future_build = nil
+        builds.each do |build|
+          if future_build
+            person = @people[future_build['committer_email']]
+            # person[build['status']] = person[build['status']].to_i + 1
+            if future_build && ['success','fixed'].include?(future_build['status']) && build['status'] == 'failed'
+              person['fixed'] += 1
+            elsif future_build && future_build['status'] == 'failed' && ['success','fixed'].include?(build['status'])
+              person['broke'] +=1
+            end
+            @people[future_build['committer_email']] = person
+          end
+          person = @people[build['committer_email']]
+          if build['status'] == 'failed'
+            person['failed'] += 1
+          elsif ['success','fixed'].include?(build['status'])
+            person['success'] +=1
+          end
+          @people[build['committer_email']] = person
+          future_build = build
+        end
       end
     end
     [200, {}, erb(:people)]
