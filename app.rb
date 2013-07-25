@@ -107,7 +107,7 @@ class HelloWorld < Goliath::API
   end
 
   def get_all_builds
-    resp = EM::HttpRequest.new(CIRCLE_BASE_URL + "project/contikiholidays/contiki").
+    resp = EM::HttpRequest.new(CIRCLE_BASE_URL + (ENV['CIRCLE_PROJECT'] || "recent-builds")).
       get(head: {"Accept" => "application/json"},
           query: {'circle-token' => ENV['CIRCLE_TOKEN']})
     if resp.response_header.status.to_i != 0
